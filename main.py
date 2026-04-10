@@ -11,7 +11,7 @@ v = TestFunction()
 
 mu = 1
 sigma = 1
-beta = Function(lambda x, y: np.array([1, 1]))
+beta = Function(lambda x, y: np.array([5, 5]))
 f = Function(lambda x, y: np.array([1]))
 
 a = integrate(mu * grad(u) * grad(v) + v * beta * grad(u) + sigma * u * v, Measure.DX)

@@ -26,8 +26,8 @@ class Solver:
         self.lhs = np.zeros((self.total_dofs, self.total_dofs))
         self.rhs = np.zeros(self.total_dofs)
         self.global_dofs_v = self.__generate_dofs_v(0)
-        self.global_dofs_e = self.__generate_dofs_e(self.global_dofs_v[-1][-1] + 1)
-        self.global_dofs_t = self.__generate_dofs_t(self.global_dofs_e[-1][-1] + 1)
+        self.global_dofs_e = self.__generate_dofs_e(self.global_dofs_v[-1][-1] + 1) if len(self.global_dofs_v) > 0 else []
+        self.global_dofs_t = self.__generate_dofs_t(self.global_dofs_e[-1][-1] + 1) if len(self.global_dofs_e) > 0 else []
         self.reversed_edge_idx = {f"{edge.tolist()}": index for index, edge in enumerate(self.e)}
         self.dirichlet_zero_marker = dirichlet_zero_marker
         self.actual_global_dofs = list(range(self.total_dofs))
@@ -86,14 +86,14 @@ class Solver:
                 phi_i = lambda x, y: np.array([fe.basis[il](x, y)])
                 for jl, jg in lg_pairs:
                     phi_j = lambda x, y: np.array([fe.basis[jl](x, y)])
-                    self.lhs[ig, jg] = self.a.eval(
+                    self.lhs[ig, jg] += self.a.eval(
                         np.array(v1),
                         np.array(v2),
                         np.array(v3),
                         phi_j,
                         phi_i
                     )
-                self.rhs[ig] = self.L.eval(
+                self.rhs[ig] += self.L.eval(
                     np.array(v1),
                     np.array(v2),
                     np.array(v3),
