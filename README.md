@@ -1,5 +1,9 @@
 # AmiFEM
 
+<div align="center">
+  <img src="sample_run.png" width="300">
+</div>
+
 Very simple educational example of FEM lib implementation similar to FEniCS.
 
 ## Supports
@@ -10,6 +14,8 @@ Very simple educational example of FEM lib implementation similar to FEniCS.
 4. contour integrals are not supported for now
 5. any geometry can be defined
 6. triangle lib is used for triangulations
+7. limited to 2D problems
+8. implemented plotter is limited to output of vertex values only
 
 ## Notes
 
