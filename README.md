@@ -1,7 +1,7 @@
 # AmiFEM
 Very simple educational example of FEM lib implementation similar to FEniCS.
 
-**(!)** It is still **wotk in progress** and has some bugs preventing calculation of the correct solution for now (but code runs without errors and some "solution" is obtained), while the implementation is conceptually finished to show the code structure and abtrsactions.
+**(!)** It is still **work in progress** and has some bugs preventing calculation of the correct solution for now (but code runs without errors and some "solution" is obtained), while the implementation is conceptually finished to show the code structure and abtrsactions.
 
 ## Notes
 
