@@ -10,10 +10,10 @@ Very simple educational example of FEM lib implementation similar to FEniCS.
 
 1. definition of finite elements of any order by adjoint basis on triangle
 2. abstract form language for defining linear problems
-5. any geometry
-6. **triangle** lib is used for triangulations
-7. limited to 2D problems
-8. implemented plotter is limited to output of vertex values only
+3. limited to 2D scalar problems
+4. any geometry
+5. **triangle** lib is used for triangulations
+6. implemented plotter is limited to output of vertex values only
 
 ## Notes
 
