@@ -62,11 +62,11 @@ class Expression:
             other if other.func_type == FuncType.TEST else other.test
         )
 
-    def __op_aux(self, other, matrix_op: Callable[[np.ndarray, np.ndarray], np.ndarray], exclude_numbers: bool) -> Expression:
-        if not exclude_numbers and isinstance(other, (int, float)):
+    def __op_aux(self, other, matrix_op: Callable[[np.ndarray, np.ndarray], np.ndarray], use_mul_for_numbers: bool) -> Expression:
+        if use_mul_for_numbers and isinstance(other, (int, float)):
             eval_func=lambda x, y, ev=self.eval, other=other: ev(x, y) * other
             trial, test = self.__get_trial_test_pair()
-        elif isinstance(other, np.ndarray):
+        elif isinstance(other, np.ndarray) or (not use_mul_for_numbers and isinstance(other, (int, float))):
             eval_func=lambda x, y, matrix_op=matrix_op, ev=self.eval, other=other: matrix_op(ev(x, y), other)
             trial, test = self.__get_trial_test_pair()
         elif isinstance(other, Expression):
@@ -92,13 +92,13 @@ class Expression:
         return a @ b
 
     def __mul__(self, other):
-        return self.__op_aux(other=other, matrix_op=lambda a, b: self.matr_mul(a, b), exclude_numbers=False)
+        return self.__op_aux(other=other, matrix_op=lambda a, b: self.matr_mul(a, b), use_mul_for_numbers=True)
 
     def __rmul__(self, other):
-        return self.__op_aux(other=other, matrix_op=lambda a, b: self.matr_mul(b, a), exclude_numbers=False)
+        return self.__op_aux(other=other, matrix_op=lambda a, b: self.matr_mul(b, a), use_mul_for_numbers=True)
 
     def __add__(self, other):
-        return self.__op_aux(other=other, matrix_op=lambda a, b: a + b, exclude_numbers=True)
+        return self.__op_aux(other=other, matrix_op=lambda a, b: a + b, use_mul_for_numbers=False)
 
     def __radd__(self, other):
         return self + other

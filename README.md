@@ -10,18 +10,16 @@ Very simple educational example of FEM lib implementation similar to FEniCS.
 
 1. definition of finite elements of any order by adjoint basis on triangle
 2. abstract form language for defining linear problems
-3. only Dirichlet boundary condition is supported now
-4. contour integrals are not supported for now
-5. any geometry can be defined
-6. triangle lib is used for triangulations
+5. any geometry
+6. **triangle** lib is used for triangulations
 7. limited to 2D problems
 8. implemented plotter is limited to output of vertex values only
 
 ## Notes
 
-Project is created for educational purposes.
+Library is created for educational purposes and can contain bugs.
 
-Written without code generation by AI tools.
+**Written without code generation by AI tools.**
 
 *Copyright (c) 2026 Roman Drebotiy*
 

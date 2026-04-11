@@ -14,12 +14,20 @@ sigma = 1
 beta = Function(lambda x, y: np.array([5, 5]))
 f = Function(lambda x, y: np.array([1]))
 
-a = integrate(mu * grad(u) * grad(v) + v * beta * grad(u) + sigma * u * v, Measure.DX)
-L = integrate(f * v, Measure.DX)
+alpha = 1
+u_out = 0.01
 
-mesh = Mesh([(0, 0), (1, 0), (1, 1), (0, 1)], area=0.01)
+a = (
+    integrate(mu * grad(u) * grad(v) + v * beta * grad(u) + sigma * u * v, Measure.DX)
+    + integrate(alpha * u * v, Measure.DS)
+)
+L = integrate(f * v, Measure.DX) + integrate(alpha * u_out * v, Measure.DS)
 
-solver = Solver(a, L, mesh, LagrangeQuadraticElement, lambda x, y, on_bnd: on_bnd)
+mesh = Mesh([(0, 0), (1, 0), (1, 1), (0, 1)], area=0.005)
+
+dirichlet_zero_marker = lambda x, y, on_bnd: on_bnd and (x<0.001 or y<0.001 or y>0.999)
+
+solver = Solver(a, L, mesh, LagrangeQuadraticElement, dirichlet_zero_marker)
 
 sol, tri, vdofs, _, _, actual_dofs, total_dofs = solver.assemble_and_solve()
 

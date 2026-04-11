@@ -74,6 +74,11 @@ class Solver:
             v1 = self.v[triangle[0]]
             v2 = self.v[triangle[1]]
             v3 = self.v[triangle[2]]
+
+            v1_on_boundary = self.v_markers[triangle[0]][0] == 1
+            v2_on_boundary = self.v_markers[triangle[1]][0] == 1
+            v3_on_boundary = self.v_markers[triangle[2]][0] == 1
+
             fe = self.fe((v1, v2, v3))
             ldofs = fe.ordered_dofs
 
@@ -90,6 +95,9 @@ class Solver:
                         np.array(v1),
                         np.array(v2),
                         np.array(v3),
+                        v1_on_boundary,
+                        v2_on_boundary,
+                        v3_on_boundary,
                         phi_j,
                         phi_i
                     )
@@ -97,6 +105,9 @@ class Solver:
                     np.array(v1),
                     np.array(v2),
                     np.array(v3),
+                    v1_on_boundary,
+                    v2_on_boundary,
+                    v3_on_boundary,
                     None,
                     phi_i
                 )
