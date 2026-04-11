@@ -26,8 +26,11 @@ class Solver:
         self.lhs = np.zeros((self.total_dofs, self.total_dofs))
         self.rhs = np.zeros(self.total_dofs)
         self.global_dofs_v = self.__generate_dofs_v(0)
-        self.global_dofs_e = self.__generate_dofs_e(self.global_dofs_v[-1][-1] + 1) if len(self.global_dofs_v) > 0 else []
-        self.global_dofs_t = self.__generate_dofs_t(self.global_dofs_e[-1][-1] + 1) if len(self.global_dofs_e) > 0 else []
+        last_ind = self.global_dofs_v[-1][-1] + 1
+        self.global_dofs_e = self.__generate_dofs_e(last_ind)
+        if len(self.global_dofs_e[-1]) > 0:
+            last_ind = self.global_dofs_e[-1][-1] + 1
+        self.global_dofs_t = self.__generate_dofs_t(last_ind)
         self.reversed_edge_idx = {f"{edge.tolist()}": index for index, edge in enumerate(self.e)}
         self.dirichlet_zero_marker = dirichlet_zero_marker
         self.actual_global_dofs = list(range(self.total_dofs))
