@@ -1,5 +1,6 @@
 import numpy as np
-from finite_elements.lagrange_quadratic_element import LagrangeQuadraticElement
+
+from finite_elements.hermite_cubic_element import HermiteCubicElement
 from form_language.expressions import TrialFunction, TestFunction, Function, grad
 from form_language.integrals import integrate, Measure
 from solver.mesh import Mesh
@@ -27,7 +28,7 @@ mesh = Mesh([(0, 0), (1, 0), (1, 1), (0, 1)], area=0.005)
 
 dirichlet_zero_marker = lambda x, y, on_bnd: on_bnd and (x<0.001 or y<0.001 or y>0.999)
 
-solver = Solver(a, L, mesh, LagrangeQuadraticElement, dirichlet_zero_marker)
+solver = Solver(a, L, mesh, HermiteCubicElement, dirichlet_zero_marker)
 
 sol, tri, vdofs, _, _, actual_dofs, total_dofs = solver.assemble_and_solve()
 
