@@ -43,6 +43,12 @@ class BaseElement:
         """
         raise NotImplementedError()
 
+    def edge_orientation_dof_change(self, gdofs: list[int]) -> list[int]:
+        """
+        Logic of single edge orientation change should be placed here
+        """
+        raise NotImplementedError()
+
     def __map_reference_to_real_vertex(self, r: Point) -> Point:
         t = self.domain
         return (

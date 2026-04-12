@@ -19,3 +19,9 @@ class LagrangeQuadraticElement(PolynomialElement):
             (0, 1),
             (0, 0.5)
         ]
+
+    def edge_orientation_dof_change(self, gdofs: list[int]) -> list[int]:
+        # added just for reference. For quadratic element there is only
+        # one dof per single edge, so it is not affected by orientation change
+        gdofs.reverse()
+        return gdofs

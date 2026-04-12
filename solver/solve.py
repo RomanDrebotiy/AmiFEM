@@ -54,6 +54,17 @@ class Solver:
 
     def __assemble_aux(self):
         for t_idx, triangle in enumerate(self.t):
+            v1 = self.v[triangle[0]]
+            v2 = self.v[triangle[1]]
+            v3 = self.v[triangle[2]]
+
+            v1_on_boundary = self.v_markers[triangle[0]][0] == 1
+            v2_on_boundary = self.v_markers[triangle[1]][0] == 1
+            v3_on_boundary = self.v_markers[triangle[2]][0] == 1
+
+            fe = self.fe((v1, v2, v3))
+            ldofs = fe.ordered_dofs
+
             gdofs = []
             for i in range(3):
                 gdofs += self.global_dofs_v[triangle[i]]
@@ -70,20 +81,9 @@ class Solver:
                     reverse = True
                 global_edge_dofs = self.global_dofs_e[edge_global_idx]
                 if reverse:
-                    global_edge_dofs.reverse()
+                    global_edge_dofs = fe.edge_orientation_dof_change(global_edge_dofs)
                 gdofs += global_edge_dofs
             gdofs += self.global_dofs_t[t_idx]
-
-            v1 = self.v[triangle[0]]
-            v2 = self.v[triangle[1]]
-            v3 = self.v[triangle[2]]
-
-            v1_on_boundary = self.v_markers[triangle[0]][0] == 1
-            v2_on_boundary = self.v_markers[triangle[1]][0] == 1
-            v3_on_boundary = self.v_markers[triangle[2]][0] == 1
-
-            fe = self.fe((v1, v2, v3))
-            ldofs = fe.ordered_dofs
 
             if not (len(gdofs) == len(ldofs) == len(fe.basis)):
                 raise Exception("Global, local d.o.f. and basis counts not matched")

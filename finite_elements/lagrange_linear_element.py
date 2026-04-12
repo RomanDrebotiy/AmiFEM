@@ -16,3 +16,6 @@ class LagrangeLinearElement(PolynomialElement):
             (1, 0),
             (0, 1)
         ]
+
+    def edge_orientation_dof_change(self, gdofs: list[int]) -> list[int]:
+        return []
