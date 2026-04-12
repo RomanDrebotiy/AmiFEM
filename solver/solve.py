@@ -124,7 +124,9 @@ class Solver:
             vertex = self.v[i]
             on_boundary = self.v_markers[i][0] == 1
             if self.dirichlet_zero_marker(vertex[0], vertex[1], on_boundary):
-                dofs += self.global_dofs_v[i]
+                # only take nodal value d.o.f., which by convention should be the first
+                # (it can be that single vertex node has also some derivative dofs)
+                dofs += [self.global_dofs_v[i][0]]
 
         for i in range(len(self.e)):
             edge = self.e[i]
@@ -133,7 +135,7 @@ class Solver:
             on_boundary1 = self.v_markers[edge[0]][0] == 1
             on_boundary2 = self.v_markers[edge[1]][0] == 1
             if self.dirichlet_zero_marker(v1[0], v1[1], on_boundary1) and self.dirichlet_zero_marker(v2[0], v2[1], on_boundary2):
-                dofs += self.global_dofs_e[i]
+                dofs += self.global_dofs_e[i] # logic here limited for now only to Lagrange-style edge dofs
 
         self.lhs = np.delete(self.lhs, dofs, axis=0)
         self.lhs = np.delete(self.lhs, dofs, axis=1)

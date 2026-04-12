@@ -1,7 +1,7 @@
 # AmiFEM
 
 <div align="center">
-  <img src="sample_run.png" width="300">
+  <img src="sample_run.png" width="320">
 </div>
 
 Very simple educational example of FEM lib implementation similar to FEniCS.

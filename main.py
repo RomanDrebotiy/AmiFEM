@@ -24,7 +24,7 @@ a = (
 )
 L = integrate(f * v, Measure.DX) + integrate(alpha * u_out * v, Measure.DS)
 
-mesh = Mesh([(0, 0), (1, 0), (1, 1), (0, 1)], area=0.005)
+mesh = Mesh([(0, 0), (1, 0), (1, 1), (0, 1)], area=0.001)
 
 dirichlet_zero_marker = lambda x, y, on_bnd: on_bnd and (x<0.001 or y<0.001 or y>0.999)
 
