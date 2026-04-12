@@ -68,6 +68,8 @@ class Solver:
             gdofs = []
             for i in range(3):
                 gdofs += self.global_dofs_v[triangle[i]]
+
+            sign_change_gdofs = []
             for lstart, lend in [
                 [0, 1],
                 [1, 2],
@@ -82,7 +84,8 @@ class Solver:
                 global_edge_dofs = self.global_dofs_e[edge_global_idx]
                 if reverse:
                     global_edge_dofs = fe.edge_orientation_dof_change(global_edge_dofs)
-                gdofs += global_edge_dofs
+                    sign_change_gdofs += [d for d in global_edge_dofs if d < 0]
+                gdofs += [abs(d) for d in global_edge_dofs]
             gdofs += self.global_dofs_t[t_idx]
 
             if not (len(gdofs) == len(ldofs) == len(fe.basis)):
@@ -90,10 +93,12 @@ class Solver:
 
             lg_pairs = list(zip(ldofs, gdofs))
 
+            sgn = lambda global_dof: -1 if global_dof in sign_change_gdofs else 1
+
             for il, ig in lg_pairs:
-                phi_i = lambda x, y: np.array([fe.basis[il](x, y)])
+                phi_i = lambda x, y: np.array([sgn(ig) * fe.basis[il](x, y)])
                 for jl, jg in lg_pairs:
-                    phi_j = lambda x, y: np.array([fe.basis[jl](x, y)])
+                    phi_j = lambda x, y: np.array([sgn(jg) * fe.basis[jl](x, y)])
                     self.lhs[ig, jg] += self.a.eval(
                         np.array(v1),
                         np.array(v2),

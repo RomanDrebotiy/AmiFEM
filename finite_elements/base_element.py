@@ -45,7 +45,10 @@ class BaseElement:
 
     def edge_orientation_dof_change(self, gdofs: list[int]) -> list[int]:
         """
-        Logic of single edge orientation change should be placed here
+        Logic of single edge orientation change should be placed here.
+        We should return permutation of global indices corresponding to the edge orientation change.
+        Negative sign should be added for the dof if it changes the sign when the orientation changes. For example,
+        this can be used for dofs which are normal derivatives (Argyris element is an example).
         """
         raise NotImplementedError()
 
