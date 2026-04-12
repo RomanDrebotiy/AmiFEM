@@ -22,6 +22,7 @@ a = (
     integrate(mu * grad(u) * grad(v) + v * beta * grad(u) + sigma * u * v, Measure.DX)
     + integrate(alpha * u * v, Measure.DS)
 )
+
 L = integrate(f * v, Measure.DX) + integrate(alpha * u_out * v, Measure.DS)
 
 mesh = Mesh([(0, 0), (1, 0), (1, 1), (0, 1)], area=0.001)

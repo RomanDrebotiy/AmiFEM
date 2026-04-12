@@ -52,6 +52,14 @@ class BaseElement:
         """
         raise NotImplementedError()
 
+    def nodal_values_count_per_edge(self) -> int:
+        """
+        Used to correctly set Dirichlet condition.
+        Note that when defining element, for each edge
+        nodal value dofs should be the FIRST in the list !
+        """
+        raise NotImplementedError()
+
     def __map_reference_to_real_vertex(self, r: Point) -> Point:
         t = self.domain
         return (

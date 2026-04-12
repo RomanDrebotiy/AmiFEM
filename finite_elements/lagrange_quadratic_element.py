@@ -25,3 +25,6 @@ class LagrangeQuadraticElement(PolynomialElement):
         # one dof per single edge, so it is not affected by orientation change
         gdofs.reverse()
         return gdofs
+
+    def nodal_values_count_per_edge(self) -> int:
+        return 1

@@ -49,3 +49,6 @@ class HermiteCubicElement(PolynomialElement):
 
     def edge_orientation_dof_change(self, gdofs: list[int]) -> list[int]:
         return []
+
+    def nodal_values_count_per_edge(self) -> int:
+        return 0

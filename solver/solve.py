@@ -15,6 +15,7 @@ class Solver:
         self.v, self.e, self.t, self.v_markers = self.tri['vertices'], self.tri['edges'], self.tri['triangles'], self.tri['vertex_markers']
         self.fe = fe
         sample_fe = fe(((0, 0), (1, 0), (0, 1)))
+        self.nodal_values_count_per_edge = sample_fe.nodal_values_count_per_edge()
         self.dofs_per_vertex = len(sample_fe.node_dof_idx_per_node[0])
         self.dofs_per_edge = len(sample_fe.edge_dof_idx_per_edge[0])
         self.internal_dofs_per_triangle = len(sample_fe.internal_dof_idx)
@@ -140,7 +141,7 @@ class Solver:
             on_boundary1 = self.v_markers[edge[0]][0] == 1
             on_boundary2 = self.v_markers[edge[1]][0] == 1
             if self.dirichlet_zero_marker(v1[0], v1[1], on_boundary1) and self.dirichlet_zero_marker(v2[0], v2[1], on_boundary2):
-                dofs += self.global_dofs_e[i] # logic here limited for now only to Lagrange-style edge dofs
+                dofs += self.global_dofs_e[i][:self.nodal_values_count_per_edge]
 
         self.lhs = np.delete(self.lhs, dofs, axis=0)
         self.lhs = np.delete(self.lhs, dofs, axis=1)
