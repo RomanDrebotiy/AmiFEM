@@ -1,3 +1,4 @@
+import time
 from typing import Callable
 
 import numpy as np
@@ -5,6 +6,17 @@ import numpy as np
 from finite_elements.base_element import BaseElement, Triangle
 from form_language.integrals import Integral
 from solver.mesh import Mesh
+
+
+def log_time(func):
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        try:
+            return func(*args, **kwargs)
+        finally:
+            elapsed = time.perf_counter() - start
+            print(f"{func.__name__} took {elapsed:.3f} seconds")
+    return wrapper
 
 
 class Solver:
@@ -149,10 +161,14 @@ class Solver:
 
         self.actual_global_dofs = np.delete(np.array(self.actual_global_dofs), dofs, axis=0)
 
+    @log_time
     def __assemble(self):
         self.__assemble_aux()
         self.__apply_dirichlet()
+        print(f"Total element count: {len(self.t)}")
+        print(f"Total d.o.f. count: {len(self.actual_global_dofs)}")
 
+    @log_time
     def __solve(self) -> np.ndarray:
         return np.linalg.solve(self.lhs, self.rhs)
 
